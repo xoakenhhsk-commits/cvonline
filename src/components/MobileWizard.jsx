@@ -18,19 +18,102 @@ import {
 } from 'lucide-react'
 import './MobileWizard.css'
 
+const wizardTranslations = {
+  vi: {
+    langStep: 'Ngôn ngữ & Mẫu',
+    personalStep: 'Thông tin cá nhân',
+    objectiveStep: 'Mục tiêu nghề nghiệp',
+    eduStep: 'Học vấn',
+    expStep: 'Kinh nghiệm',
+    skillStep: 'Kỹ năng',
+    otherStep: 'Sở thích & Khác',
+    reviewStep: 'Xem lại & Tải về',
+    chooseLang: 'Chọn ngôn ngữ',
+    chooseTemplate: 'Chọn mẫu thiết kế',
+    personalDetails: 'Thông tin cá nhân',
+    personalSubtitle: 'Thêm tên và vị trí công việc giúp nhà tuyển dụng hiểu nhanh về bạn.',
+    firstName: 'Họ và tên đệm',
+    lastName: 'Tên',
+    jobTitle: 'Vị trí ứng tuyển',
+    addPhoto: 'Thêm ảnh',
+    phone: 'Số điện thoại',
+    email: 'Địa chỉ Email',
+    address: 'Địa chỉ',
+    objectiveSubtitle: 'Giới thiệu ngắn gọn về bản thân và định hướng sự nghiệp.',
+    objectivePlaceholder: 'Ví dụ: Tôi là chuyên gia Marketing với 5 năm kinh nghiệm...',
+    eduSubtitle: 'Liệt kê quá trình học tập của bạn.',
+    addEdu: 'Thêm học vấn',
+    expSubtitle: 'Mô tả các công việc bạn đã từng đảm nhận.',
+    addExp: 'Thêm kinh nghiệm',
+    skillSubtitle: 'Thể hiện thế mạnh chuyên môn của bạn.',
+    addSkill: 'Thêm kỹ năng',
+    otherSubtitle: 'Sở thích, giải thưởng và chứng chỉ.',
+    hobbies: 'Sở thích',
+    awards: 'Giải thưởng',
+    certs: 'Chứng chỉ',
+    reviewTitle: 'Tuyệt vời!',
+    reviewSubtitle: 'Hãy xem lại CV của bạn trước khi tải về.',
+    downloadBtn: 'Tải CV (PDF)',
+    finishBtn: 'Về màn hình chính',
+    next: 'Tiếp theo',
+    back: 'Quay lại'
+  },
+  en: {
+    langStep: 'Language & Template',
+    personalStep: 'Personal Details',
+    objectiveStep: 'Career Objective',
+    eduStep: 'Education',
+    expStep: 'Experience',
+    skillStep: 'Skills',
+    otherStep: 'Hobbies & Others',
+    reviewStep: 'Review & Download',
+    chooseLang: 'Choose Language',
+    chooseTemplate: 'Choose Template',
+    personalDetails: 'Personal Details',
+    personalSubtitle: 'Adding your name and desired job title helps recruiters quickly understand who you are.',
+    firstName: 'First Name',
+    lastName: 'Last Name',
+    jobTitle: 'Desired Job Title',
+    addPhoto: 'Add Photo',
+    phone: 'Phone Number',
+    email: 'Email Address',
+    address: 'Address',
+    objectiveSubtitle: 'Briefly introduce yourself and your career goals.',
+    objectivePlaceholder: 'Example: I am a Marketing expert with 5 years of experience...',
+    eduSubtitle: 'List your educational background.',
+    addEdu: 'Add Education',
+    expSubtitle: 'Describe your work history.',
+    addExp: 'Add Experience',
+    skillSubtitle: 'Showcase your professional strengths.',
+    addSkill: 'Add Skill',
+    otherSubtitle: 'Hobbies, awards, and certificates.',
+    hobbies: 'Hobbies',
+    awards: 'Awards',
+    certs: 'Certificates',
+    reviewTitle: 'Excellent!',
+    reviewSubtitle: 'Please review your CV before downloading.',
+    downloadBtn: 'Download CV (PDF)',
+    finishBtn: 'Back to Home',
+    next: 'Next',
+    back: 'Back'
+  }
+};
+
 const MobileWizard = ({ cvData, setCvData, template, setTemplate, language, setLanguage, onDownload, onFinish, renderPreview }) => {
   const [step, setStep] = useState(0)
   const [view, setView] = useState('write') // 'write' or 'design'
   
+  const t = wizardTranslations[language] || wizardTranslations['en'];
+
   const steps = [
-    { title: 'Ngôn ngữ & Mẫu', icon: <Languages size={20} /> },
-    { title: 'Thông tin cá nhân', icon: <User size={20} /> },
-    { title: 'Mục tiêu nghề nghiệp', icon: <Settings size={20} /> },
-    { title: 'Học vấn', icon: <GraduationCap size={20} /> },
-    { title: 'Kinh nghiệm', icon: <Briefcase size={20} /> },
-    { title: 'Kỹ năng', icon: <Settings size={20} /> },
-    { title: 'Sở thích & Khác', icon: <Heart size={20} /> },
-    { title: 'Xem lại & Tải về', icon: <Eye size={20} /> }
+    { title: t.langStep, icon: <Languages size={20} /> },
+    { title: t.personalStep, icon: <User size={20} /> },
+    { title: t.objectiveStep, icon: <Settings size={20} /> },
+    { title: t.eduStep, icon: <GraduationCap size={20} /> },
+    { title: t.expStep, icon: <Briefcase size={20} /> },
+    { title: t.skillStep, icon: <Settings size={20} /> },
+    { title: t.otherStep, icon: <Heart size={20} /> },
+    { title: t.reviewStep, icon: <Eye size={20} /> }
   ]
 
   const handleChange = (section, field, value) => {
@@ -90,7 +173,7 @@ const MobileWizard = ({ cvData, setCvData, template, setTemplate, language, setL
       case 0:
         return (
           <div className="wizard-step-content">
-            <h3>Chọn ngôn ngữ</h3>
+            <h3>{t.chooseLang}</h3>
             <div className="language-grid">
               {[
                 { id: 'vi', name: 'Tiếng Việt', flag: '🇻🇳' },
@@ -110,7 +193,7 @@ const MobileWizard = ({ cvData, setCvData, template, setTemplate, language, setL
               ))}
             </div>
 
-            <h3 style={{ marginTop: '24px' }}>Chọn mẫu thiết kế</h3>
+            <h3 style={{ marginTop: '24px' }}>{t.chooseTemplate}</h3>
             <div className="template-grid">
               {[
                 { id: 'template1', name: 'Tiêu Chuẩn' },
@@ -135,17 +218,18 @@ const MobileWizard = ({ cvData, setCvData, template, setTemplate, language, setL
       case 1:
         return (
           <div className="wizard-step-content">
-            <h2 className="step-title">Personal details</h2>
-            <p className="step-subtitle">Adding your name and desired job title helps recruiters quickly understand who you are and what role you want.</p>
+            <h2 className="step-title">{t.personalDetails}</h2>
+            <p className="step-subtitle">{t.personalSubtitle}</p>
             
             <div className="wizard-form">
               <div className="input-group-modern">
                 <input 
                   type="text" 
-                  placeholder="First name" 
+                  placeholder={t.firstName} 
                   value={cvData.personal.name.split(' ').slice(0, -1).join(' ')} 
                   onChange={(e) => {
-                    const lastName = cvData.personal.name.split(' ').pop()
+                    const names = cvData.personal.name.split(' ')
+                    const lastName = names.length > 1 ? names.pop() : ''
                     handleChange('personal', 'name', `${e.target.value} ${lastName}`)
                   }}
                 />
@@ -153,10 +237,11 @@ const MobileWizard = ({ cvData, setCvData, template, setTemplate, language, setL
               <div className="input-group-modern">
                 <input 
                   type="text" 
-                  placeholder="Last name" 
+                  placeholder={t.lastName} 
                   value={cvData.personal.name.split(' ').pop()} 
                   onChange={(e) => {
-                    const firstName = cvData.personal.name.split(' ').slice(0, -1).join(' ')
+                    const names = cvData.personal.name.split(' ')
+                    const firstName = names.slice(0, -1).join(' ')
                     handleChange('personal', 'name', `${firstName} ${e.target.value}`)
                   }}
                 />
@@ -165,7 +250,7 @@ const MobileWizard = ({ cvData, setCvData, template, setTemplate, language, setL
                 <Briefcase className="input-icon" size={20} />
                 <input 
                   type="text" 
-                  placeholder="Desired job title" 
+                  placeholder={t.jobTitle} 
                   value={cvData.personal.title} 
                   onChange={(e) => handleChange('personal', 'title', e.target.value)}
                 />
@@ -177,7 +262,7 @@ const MobileWizard = ({ cvData, setCvData, template, setTemplate, language, setL
                   <div className="photo-icon-container">
                     <Camera size={24} />
                   </div>
-                  <span>Add photo</span>
+                  <span>{t.addPhoto}</span>
                 </label>
                 {cvData.personal.avatar && (
                   <div className="avatar-mini-preview">
@@ -189,7 +274,7 @@ const MobileWizard = ({ cvData, setCvData, template, setTemplate, language, setL
               <div className="input-group-modern">
                 <input 
                   type="text" 
-                  placeholder="Phone number" 
+                  placeholder={t.phone} 
                   value={cvData.personal.phone} 
                   onChange={(e) => handleChange('personal', 'phone', e.target.value)}
                 />
@@ -197,7 +282,7 @@ const MobileWizard = ({ cvData, setCvData, template, setTemplate, language, setL
               <div className="input-group-modern">
                 <input 
                   type="email" 
-                  placeholder="Email address" 
+                  placeholder={t.email} 
                   value={cvData.personal.email} 
                   onChange={(e) => handleChange('personal', 'email', e.target.value)}
                 />
@@ -205,7 +290,7 @@ const MobileWizard = ({ cvData, setCvData, template, setTemplate, language, setL
               <div className="input-group-modern">
                 <input 
                   type="text" 
-                  placeholder="Address" 
+                  placeholder={t.address} 
                   value={cvData.personal.address} 
                   onChange={(e) => handleChange('personal', 'address', e.target.value)}
                 />
@@ -216,11 +301,11 @@ const MobileWizard = ({ cvData, setCvData, template, setTemplate, language, setL
       case 2:
         return (
           <div className="wizard-step-content">
-            <h2 className="step-title">Mục tiêu nghề nghiệp</h2>
-            <p className="step-subtitle">Giới thiệu ngắn gọn về bản thân và định hướng sự nghiệp của bạn.</p>
+            <h2 className="step-title">{t.objectiveStep}</h2>
+            <p className="step-subtitle">{t.objectiveSubtitle}</p>
             <textarea 
               className="textarea-modern"
-              placeholder="Ví dụ: Tôi là một chuyên gia Marketing với 5 năm kinh nghiệm..."
+              placeholder={t.objectivePlaceholder}
               value={cvData.summary}
               onChange={(e) => handleChange('summary', null, e.target.value)}
             />
@@ -229,12 +314,12 @@ const MobileWizard = ({ cvData, setCvData, template, setTemplate, language, setL
       case 3:
         return (
           <div className="wizard-step-content">
-            <h2 className="step-title">Học vấn</h2>
-            <p className="step-subtitle">Liệt kê quá trình học tập của bạn.</p>
+            <h2 className="step-title">{t.eduStep}</h2>
+            <p className="step-subtitle">{t.eduSubtitle}</p>
             {cvData.education.map((edu, index) => (
               <div key={edu.id} className="dynamic-item-card">
                 <div className="item-header">
-                  <span>Học vấn #{index + 1}</span>
+                  <span>{t.eduStep} #{index + 1}</span>
                   <button onClick={() => removeItem('education', edu.id)} className="delete-btn"><Trash2 size={16}/></button>
                 </div>
                 <div className="input-group-modern">
@@ -249,19 +334,19 @@ const MobileWizard = ({ cvData, setCvData, template, setTemplate, language, setL
               </div>
             ))}
             <button className="add-item-btn" onClick={() => addItem('education', { school: '', degree: '', date: '' })}>
-              <Plus size={18} /> Thêm học vấn
+              <Plus size={18} /> {t.addEdu}
             </button>
           </div>
         )
       case 4:
         return (
           <div className="wizard-step-content">
-            <h2 className="step-title">Kinh nghiệm làm việc</h2>
-            <p className="step-subtitle">Mô tả các công việc bạn đã từng đảm nhận.</p>
+            <h2 className="step-title">{t.expStep}</h2>
+            <p className="step-subtitle">{t.expSubtitle}</p>
             {cvData.experience.map((exp, index) => (
               <div key={exp.id} className="dynamic-item-card">
                 <div className="item-header">
-                  <span>Kinh nghiệm #{index + 1}</span>
+                  <span>{t.expStep} #{index + 1}</span>
                   <button onClick={() => removeItem('experience', exp.id)} className="delete-btn"><Trash2 size={16}/></button>
                 </div>
                 <div className="input-group-modern">
@@ -277,15 +362,15 @@ const MobileWizard = ({ cvData, setCvData, template, setTemplate, language, setL
               </div>
             ))}
             <button className="add-item-btn" onClick={() => addItem('experience', { company: '', position: '', date: '', description: '' })}>
-              <Plus size={18} /> Thêm kinh nghiệm
+              <Plus size={18} /> {t.addExp}
             </button>
           </div>
         )
       case 5:
         return (
           <div className="wizard-step-content">
-            <h2 className="step-title">Kỹ năng</h2>
-            <p className="step-subtitle">Thể hiện thế mạnh chuyên môn của bạn.</p>
+            <h2 className="step-title">{t.skillStep}</h2>
+            <p className="step-subtitle">{t.skillSubtitle}</p>
             {cvData.skills.map((skill) => (
               <div key={skill.id} className="dynamic-item-card skill-item">
                 <div className="input-group-modern no-margin">
@@ -299,16 +384,16 @@ const MobileWizard = ({ cvData, setCvData, template, setTemplate, language, setL
               </div>
             ))}
             <button className="add-item-btn" onClick={() => addItem('skills', { name: '', level: 50 })}>
-              <Plus size={18} /> Thêm kỹ năng
+              <Plus size={18} /> {t.addSkill}
             </button>
           </div>
         )
       case 6:
         return (
           <div className="wizard-step-content">
-            <h2 className="step-title">Sở thích & Khác</h2>
+            <h2 className="step-title">{t.otherStep}</h2>
             
-            <h3 className="sub-section-title">Sở thích</h3>
+            <h3 className="sub-section-title">{t.hobbies}</h3>
             <div className="input-group-modern">
               <input 
                 type="text" 
@@ -318,7 +403,7 @@ const MobileWizard = ({ cvData, setCvData, template, setTemplate, language, setL
               />
             </div>
 
-            <h3 className="sub-section-title">Giải thưởng</h3>
+            <h3 className="sub-section-title">{t.awards}</h3>
             {cvData.awards.map(award => (
               <div key={award.id} className="dynamic-item-card">
                 <div className="form-row-wizard">
@@ -332,7 +417,7 @@ const MobileWizard = ({ cvData, setCvData, template, setTemplate, language, setL
               <Plus size={16} /> Thêm giải thưởng
             </button>
 
-            <h3 className="sub-section-title">Chứng chỉ</h3>
+            <h3 className="sub-section-title">{t.certs}</h3>
             {cvData.certificates.map(cert => (
               <div key={cert.id} className="dynamic-item-card">
                 <div className="form-row-wizard">
@@ -350,8 +435,8 @@ const MobileWizard = ({ cvData, setCvData, template, setTemplate, language, setL
       case 7:
         return (
           <div className="wizard-step-content review-step">
-            <h2 className="step-title">Tuyệt vời!</h2>
-            <p className="step-subtitle">Hãy xem lại CV của bạn trước khi tải về.</p>
+            <h2 className="step-title">{t.reviewTitle}</h2>
+            <p className="step-subtitle">{t.reviewSubtitle}</p>
             
             <div className="cv-preview-mobile-wrapper">
               <div className="cv-preview-mobile-scaled">
@@ -361,10 +446,10 @@ const MobileWizard = ({ cvData, setCvData, template, setTemplate, language, setL
 
             <div className="review-actions">
               <button className="btn-primary-wizard" onClick={onDownload}>
-                <Download size={20} /> Tải CV (PDF)
+                <Download size={20} /> {t.downloadBtn}
               </button>
               <button className="btn-ghost-wizard" onClick={onFinish}>
-                Về màn hình chính
+                {t.finishBtn}
               </button>
             </div>
           </div>
@@ -406,7 +491,7 @@ const MobileWizard = ({ cvData, setCvData, template, setTemplate, language, setL
       {/* Bottom Navigation */}
       <div className="wizard-footer">
         <button className="footer-back-btn" onClick={prevStep} disabled={step === 0}>
-          <ChevronLeft size={18} /> Back
+          <ChevronLeft size={18} /> {t.back}
         </button>
 
         <div className="step-dots">
@@ -417,7 +502,7 @@ const MobileWizard = ({ cvData, setCvData, template, setTemplate, language, setL
 
         {step < steps.length - 1 ? (
           <button className="footer-next-btn" onClick={nextStep}>
-            Next <ChevronRight size={18} />
+            {t.next} <ChevronRight size={18} />
           </button>
         ) : (
           <button className="footer-next-btn finish" onClick={onDownload}>

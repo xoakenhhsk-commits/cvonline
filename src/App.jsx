@@ -71,6 +71,19 @@ function App() {
     }
   }
 
+  const handleLanguageChange = (newLang) => {
+    const confirmTranslate = window.confirm(
+      newLang === 'vi' ? 'Bạn có muốn dịch toàn bộ nội dung CV sang Tiếng Việt không? (Lưu ý: Nội dung hiện tại sẽ bị ghi đè)' :
+      newLang === 'en' ? 'Do you want to translate the entire CV content to English? (Note: Current content will be overwritten)' :
+      'Do you want to switch to this language template? (Note: Current content will be overwritten)'
+    );
+    
+    if (confirmTranslate) {
+      setCvData(cvDataByLanguage[newLang] || cvDataByLanguage['vi']);
+    }
+    setLanguage(newLang);
+  }
+
   const handleSaveCV = async () => {
     if (!user) return;
     try {
@@ -205,7 +218,7 @@ function App() {
             template={template} 
             setTemplate={setTemplate}
             language={language}
-            setLanguage={setLanguage}
+            setLanguage={handleLanguageChange}
             renderPreview={renderPreview}
             onDownload={handleDownload}
             onFinish={handleGoHome}
@@ -254,7 +267,7 @@ function App() {
                 </select>
                 <select 
                   value={language} 
-                  onChange={(e) => setLanguage(e.target.value)}
+                  onChange={(e) => handleLanguageChange(e.target.value)}
                   className="form-control"
                   style={{ width: 'auto', padding: '0.4rem 0.8rem' }}
                 >
