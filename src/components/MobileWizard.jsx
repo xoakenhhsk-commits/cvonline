@@ -18,7 +18,7 @@ import {
 } from 'lucide-react'
 import './MobileWizard.css'
 
-const MobileWizard = ({ cvData, setCvData, template, setTemplate, language, setLanguage, onDownload, onFinish }) => {
+const MobileWizard = ({ cvData, setCvData, template, setTemplate, language, setLanguage, onDownload, onFinish, renderPreview }) => {
   const [step, setStep] = useState(0)
   const [view, setView] = useState('write') // 'write' or 'design'
   
@@ -351,19 +351,21 @@ const MobileWizard = ({ cvData, setCvData, template, setTemplate, language, setL
         return (
           <div className="wizard-step-content review-step">
             <h2 className="step-title">Tuyệt vời!</h2>
-            <p className="step-subtitle">Bạn đã hoàn thành tất cả thông tin. Hãy xem lại CV của bạn và tải về máy.</p>
+            <p className="step-subtitle">Hãy xem lại CV của bạn trước khi tải về.</p>
             
+            <div className="cv-preview-mobile-wrapper">
+              <div className="cv-preview-mobile-scaled">
+                {renderPreview()}
+              </div>
+            </div>
+
             <div className="review-actions">
               <button className="btn-primary-wizard" onClick={onDownload}>
-                <Download size={20} /> Tải CV ngay (PDF)
+                <Download size={20} /> Tải CV (PDF)
               </button>
               <button className="btn-ghost-wizard" onClick={onFinish}>
                 Về màn hình chính
               </button>
-            </div>
-
-            <div className="preview-tip">
-              <p>💡 Bạn có thể quay lại bất kỳ bước nào để chỉnh sửa thông tin.</p>
             </div>
           </div>
         )

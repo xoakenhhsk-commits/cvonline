@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, query, orderBy, deleteDoc, updateDoc } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 // Replace these with your actual Firebase project configuration
@@ -40,8 +40,18 @@ export const logout = async () => {
 
 export const saveCVData = async (userId, cvData) => {
   try {
-    await setDoc(doc(db, "users", userId), { cvData });
-    return true;
+    // Legacy support: save to main doc
+    await setDoc(doc(db, "users", userId), { cvData }, { merge: true });
+    
+    // New support: save as a specific CV record
+    const cvsRef = collection(db, "users", userId, "cvs");
+    if (cvData.id) {
+      await setDoc(doc(db, "users", userId, "cvs", cvData.id), { ...cvData, updatedAt: new Date() });
+    } else {
+      const newDoc = await addDoc(cvsRef, { ...cvData, createdAt: new Date(), updatedAt: new Date() });
+      cvData.id = newDoc.id;
+    }
+    return cvData;
   } catch (error) {
     console.error("Error saving CV", error);
     throw error;
@@ -59,6 +69,28 @@ export const getCVData = async (userId) => {
   } catch (error) {
     console.error("Error getting CV", error);
     return null;
+  }
+};
+
+export const listUserCVs = async (userId) => {
+  try {
+    const cvsRef = collection(db, "users", userId, "cvs");
+    const q = query(cvsRef, orderBy("updatedAt", "desc"));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  } catch (error) {
+    console.error("Error listing CVs", error);
+    return [];
+  }
+};
+
+export const deleteUserCV = async (userId, cvId) => {
+  try {
+    await deleteDoc(doc(db, "users", userId, "cvs", cvId));
+    return true;
+  } catch (error) {
+    console.error("Error deleting CV", error);
+    throw error;
   }
 };
 

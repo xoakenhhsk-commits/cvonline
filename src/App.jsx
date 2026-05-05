@@ -15,6 +15,7 @@ import { cvDataByLanguage } from './translations'
 import DeviceSelection from './components/DeviceSelection'
 import MobileWizard from './components/MobileWizard'
 import LandingPage from './components/LandingPage'
+import CVHistory from './components/CVHistory'
 
 function App() {
   const cvRef = useRef(null)
@@ -24,6 +25,7 @@ function App() {
   const [isSaving, setIsSaving] = useState(false)
   const [showLanding, setShowLanding] = useState(true)
   const [deviceType, setDeviceType] = useState(null) // null, 'laptop', 'phone'
+  const [showHistory, setShowHistory] = useState(false)
   const [mobileTab, setMobileTab] = useState('edit')
   const [language, setLanguage] = useState('vi')
 
@@ -107,6 +109,36 @@ function App() {
         onStart={() => setShowLanding(false)} 
         onLogin={handleLogin} 
         user={user} 
+        onShowHistory={() => {
+          if (!user) {
+            handleLogin()
+          } else {
+            setShowHistory(true)
+            setShowLanding(false)
+          }
+        }}
+      />
+    )
+  }
+
+  if (showHistory && user) {
+    return (
+      <CVHistory 
+        userId={user.uid} 
+        onBack={() => {
+          setShowHistory(false)
+          setShowLanding(true)
+        }} 
+        onNew={() => {
+          setShowHistory(false)
+          setCvData(cvDataByLanguage[language] || cvDataByLanguage['vi'])
+          setDeviceType(null)
+        }}
+        onEdit={(cv) => {
+          setCvData(cv)
+          setShowHistory(false)
+          setDeviceType(window.innerWidth < 768 ? 'phone' : 'laptop')
+        }}
       />
     )
   }
@@ -138,6 +170,7 @@ function App() {
           setTemplate={setTemplate}
           language={language}
           setLanguage={setLanguage}
+          renderPreview={renderPreview}
           onDownload={handleDownload}
           onFinish={() => {
             setShowLanding(true)
