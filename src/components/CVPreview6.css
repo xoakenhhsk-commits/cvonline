@@ -1,0 +1,298 @@
+/* Template 6 - Minimalist Luxury */
+.cv-document-6 {
+  width: 794px;
+  min-height: 1123px;
+  background: #ffffff;
+  font-family: 'Inter', sans-serif;
+  color: #1f2937;
+  display: flex;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Sidebar */
+.cv6-sidebar {
+  width: 280px;
+  background: #1a1a2e;
+  color: #e2e8f0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.cv6-avatar-area {
+  padding: 35px 30px 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.cv6-avatar {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  border: 3px solid #c9a94e;
+  object-fit: cover;
+  box-shadow: 0 0 20px rgba(201, 169, 78, 0.3);
+}
+
+.cv6-sidebar-name {
+  text-align: center;
+  padding: 10px 20px 0;
+}
+
+.cv6-sidebar-name h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  line-height: 1.3;
+  margin-bottom: 5px;
+}
+
+.cv6-sidebar-name h2 {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: #c9a94e;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.cv6-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c9a94e, transparent);
+  margin: 18px 25px;
+}
+
+.cv6-sidebar-section {
+  padding: 0 25px;
+}
+
+.cv6-sidebar-heading {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #c9a94e;
+  margin-bottom: 12px;
+}
+
+/* Contact */
+.cv6-contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cv6-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.78rem;
+  color: #cbd5e1;
+  word-break: break-word;
+}
+
+.cv6-contact-item svg {
+  color: #c9a94e;
+  flex-shrink: 0;
+}
+
+/* Skills with dots */
+.cv6-skills {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cv6-skill {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cv6-skill-header {
+  font-size: 0.78rem;
+  color: #e2e8f0;
+  font-weight: 500;
+}
+
+.cv6-skill-dots {
+  display: flex;
+  gap: 5px;
+}
+
+.cv6-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1.5px solid #c9a94e;
+  background: transparent;
+  transition: background 0.3s;
+}
+
+.cv6-dot.filled {
+  background: #c9a94e;
+}
+
+/* Hobbies */
+.cv6-hobby-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cv6-hobby-tag {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border: 1px solid rgba(201, 169, 78, 0.4);
+  border-radius: 15px;
+  font-size: 0.72rem;
+  color: #c9a94e;
+}
+
+/* Awards */
+.cv6-award-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.cv6-gold-icon {
+  color: #c9a94e;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.cv6-award-year {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #c9a94e;
+  display: block;
+}
+
+.cv6-award-title {
+  font-size: 0.78rem;
+  color: #cbd5e1;
+  display: block;
+  line-height: 1.3;
+}
+
+/* Main Content */
+.cv6-main {
+  flex: 1;
+  padding: 35px 35px 30px;
+}
+
+.cv6-main-section {
+  margin-bottom: 25px;
+}
+
+.cv6-main-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #1a1a2e;
+  margin-bottom: 4px;
+}
+
+.cv6-heading-line {
+  height: 2px;
+  background: linear-gradient(90deg, #c9a94e, transparent);
+  margin-bottom: 15px;
+}
+
+.cv6-summary-text {
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: #4b5563;
+  text-align: justify;
+}
+
+/* Experience Blocks */
+.cv6-exp-block {
+  margin-bottom: 18px;
+  padding-left: 15px;
+  border-left: 2px solid #e5e7eb;
+}
+
+.cv6-exp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 4px;
+}
+
+.cv6-exp-position {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  text-transform: uppercase;
+}
+
+.cv6-exp-company {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+.cv6-exp-date {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #c9a94e;
+  white-space: nowrap;
+  padding: 2px 8px;
+  border: 1px solid #c9a94e;
+  border-radius: 4px;
+  flex-shrink: 0;
+  margin-left: 10px;
+}
+
+.cv6-exp-desc {
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: #4b5563;
+  margin-top: 6px;
+}
+
+/* Certificates Grid */
+.cv6-cert-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cv6-cert-card {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px 14px;
+  background: #faf9f6;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.cv6-cert-icon {
+  color: #c9a94e;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.cv6-cert-year {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #c9a94e;
+}
+
+.cv6-cert-name {
+  font-size: 0.8rem;
+  color: #374151;
+  line-height: 1.4;
+}
