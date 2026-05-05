@@ -1,16 +1,58 @@
-# React + Vite
+# 🎨 AuraCV - Professional CV Maker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+AuraCV là một nền tảng tạo CV hiện đại, chuyên nghiệp và dễ sử dụng, giúp bạn chinh phục nhà tuyển dụng chỉ trong vài phút.
 
-Currently, two official plugins are available:
+![AuraCV Preview](https://auracv.vercel.app/og-image.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ✨ Tính năng nổi bật
 
-## React Compiler
+- **6 Mẫu thiết kế cao cấp**: Từ phong cách tiêu chuẩn đến tối giản sang trọng.
+- **Đa ngôn ngữ**: Hỗ trợ Tiếng Việt, Tiếng Anh, Nhật Bản, Trung Quốc và Khmer.
+- **Đồng bộ Cloud**: Lưu trữ dữ liệu an toàn với Firebase.
+- **Xuất PDF**: Chất lượng cao, giữ nguyên định dạng thiết kế.
+- **Responsive**: Trải nghiệm mượt mà trên cả máy tính và điện thoại.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 Công nghệ sử dụng
 
-## Expanding the ESLint configuration
+- **Frontend**: React 19 + Vite
+- **Styling**: Vanilla CSS (Modern design tokens)
+- **Backend/Auth**: Firebase (Firestore & Auth)
+- **Export**: html2canvas & jspdf
+- **Icons**: Lucide React
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠️ Hướng dẫn cài đặt
+
+1. **Clone project**:
+   ```bash
+   git clone <your-repo-url>
+   cd cv-app
+   ```
+
+2. **Cài đặt dependencies**:
+   ```bash
+   npm install
+   ```
+
+3. **Cấu hình Environment Variables**:
+   Tạo file `.env.local` từ mẫu `.env.example` và điền thông tin Firebase của bạn:
+   ```env
+   VITE_FIREBASE_API_KEY=your_api_key
+   VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
+   ...
+   ```
+
+4. **Chạy ở chế độ phát triển**:
+   ```bash
+   npm run dev
+   ```
+
+## 🌐 Deployment (Vercel)
+
+Dự án đã được cấu hình sẵn cho Vercel qua file `vercel.json`.
+
+1. Đẩy code lên GitHub.
+2. Import project vào Vercel.
+3. Thêm các Environment Variables (từ file `.env`) vào phần **Project Settings > Environment Variables** trên Vercel dashboard.
+
+---
+© 2026 AuraCV. Chắp cánh cho sự nghiệp của bạn.
