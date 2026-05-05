@@ -2,7 +2,8 @@ import React from 'react'
 import { FileText, Wand2, Plus, History, Menu, ChevronLeft, ChevronRight, X } from 'lucide-react'
 import './LandingPage.css'
 
-const LandingPage = ({ onStart, onLogin, user, onShowHistory }) => {
+const LandingPage = ({ onStart, onLogin, user, onShowHistory, onOpenMenu }) => {
+  const [showCookieBanner, setShowCookieBanner] = React.useState(true);
   return (
     <div className="aura-landing">
       {/* Header */}
@@ -19,7 +20,7 @@ const LandingPage = ({ onStart, onLogin, user, onShowHistory }) => {
           ) : (
             <button className="btn-ghost-aura" onClick={onLogin}>Đăng nhập</button>
           )}
-          <button className="menu-btn-aura">
+          <button className="menu-btn-aura" onClick={onOpenMenu}>
             <Menu size={24} />
           </button>
         </div>
@@ -63,13 +64,15 @@ const LandingPage = ({ onStart, onLogin, user, onShowHistory }) => {
       </section>
 
       {/* Cookie Banner (as requested in image style) */}
-      <div className="aura-cookie-banner">
-        <div className="cookie-text">
-          AuraCV.com and our partners use cookies. By using this site you agree to our use of cookies as described in our 
-          <a href="#"> Privacy Policy</a> and <a href="#"> Cookie Tracking Policy</a>.
+      {showCookieBanner && (
+        <div className="aura-cookie-banner">
+          <div className="cookie-text">
+            AuraCV.com and our partners use cookies. By using this site you agree to our use of cookies as described in our 
+            <a href="#"> Privacy Policy</a> and <a href="#"> Cookie Tracking Policy</a>.
+          </div>
+          <button className="cookie-close" onClick={() => setShowCookieBanner(false)}><X size={16} /></button>
         </div>
-        <button className="cookie-close"><X size={16} /></button>
-      </div>
+      )}
 
       {/* Trust Badges */}
       <section className="trust-section-aura">

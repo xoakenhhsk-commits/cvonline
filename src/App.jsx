@@ -16,6 +16,7 @@ import DeviceSelection from './components/DeviceSelection'
 import MobileWizard from './components/MobileWizard'
 import LandingPage from './components/LandingPage'
 import CVHistory from './components/CVHistory'
+import MobileMenu from './components/MobileMenu'
 
 function App() {
   const cvRef = useRef(null)
@@ -26,6 +27,7 @@ function App() {
   const [showLanding, setShowLanding] = useState(true)
   const [deviceType, setDeviceType] = useState(null) // null, 'laptop', 'phone'
   const [showHistory, setShowHistory] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [mobileTab, setMobileTab] = useState('edit')
   const [language, setLanguage] = useState('vi')
 
@@ -51,11 +53,33 @@ function App() {
     }
   }, [language, user])
 
+  // Save CV automatically when cvData changes (optional, or on specific actions)
+  useEffect(() => {
+    if (user && !showLanding && !showHistory) {
+      const timer = setTimeout(() => {
+        handleSaveCV();
+      }, 5000); // Auto-save every 5 seconds if changed
+      return () => clearTimeout(timer);
+    }
+  }, [cvData, user, showLanding, showHistory]);
+
   const handleLogin = async () => {
     try {
       await loginWithGoogle()
     } catch {
       alert("Đăng nhập thất bại. Vui lòng kiểm tra cấu hình Firebase.")
+    }
+  }
+
+  const handleSaveCV = async () => {
+    if (!user) return;
+    try {
+      const saved = await saveCVData(user.uid, cvData);
+      if (saved && saved.id) {
+        setCvData(prev => ({ ...prev, id: saved.id }));
+      }
+    } catch (err) {
+      console.error("Auto-save failed", err);
     }
   }
 
@@ -66,13 +90,19 @@ function App() {
     }
     setIsSaving(true)
     try {
-      await saveCVData(user.uid, cvData)
-      alert('Đã lưu CV lên cloud thành công!')
+      await handleSaveCV();
+      alert('Đã lưu CV thành công!')
     } catch {
       alert('Có lỗi khi lưu CV. Vui lòng thử lại.')
     } finally {
       setIsSaving(false)
     }
+  }
+
+  const handleGoHome = () => {
+    setShowLanding(true);
+    setDeviceType(null);
+    setShowHistory(false);
   }
 
   const handleDownload = async () => {
@@ -97,54 +127,11 @@ function App() {
       
       pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight)
       pdf.save(`${cvData.personal.name.replace(/\s+/g, '_')}_CV.pdf`)
+      handleSaveCV(); // Save to history when downloaded
     } catch (err) {
       console.error('Error generating PDF', err)
       alert('Could not generate PDF. Please try again.')
     }
-  }
-
-  if (showLanding) {
-    return (
-      <LandingPage 
-        onStart={() => setShowLanding(false)} 
-        onLogin={handleLogin} 
-        user={user} 
-        onShowHistory={() => {
-          if (!user) {
-            handleLogin()
-          } else {
-            setShowHistory(true)
-            setShowLanding(false)
-          }
-        }}
-      />
-    )
-  }
-
-  if (showHistory && user) {
-    return (
-      <CVHistory 
-        userId={user.uid} 
-        onBack={() => {
-          setShowHistory(false)
-          setShowLanding(true)
-        }} 
-        onNew={() => {
-          setShowHistory(false)
-          setCvData(cvDataByLanguage[language] || cvDataByLanguage['vi'])
-          setDeviceType(null)
-        }}
-        onEdit={(cv) => {
-          setCvData(cv)
-          setShowHistory(false)
-          setDeviceType(window.innerWidth < 768 ? 'phone' : 'laptop')
-        }}
-      />
-    )
-  }
-
-  if (!deviceType) {
-    return <DeviceSelection onSelect={(type) => setDeviceType(type)} />
   }
 
   const renderPreview = () => {
@@ -160,138 +147,181 @@ function App() {
     }
   }
 
-  if (deviceType === 'phone') {
-    return (
-      <>
-        <MobileWizard 
-          cvData={cvData} 
-          setCvData={setCvData} 
-          template={template} 
-          setTemplate={setTemplate}
-          language={language}
-          setLanguage={setLanguage}
-          renderPreview={renderPreview}
-          onDownload={handleDownload}
-          onFinish={() => {
-            setShowLanding(true)
-            setDeviceType(null)
-          }}
-        />
-        {/* Hidden preview for PDF generation */}
-        <div style={{ position: 'absolute', left: '-9999px', top: 0 }}>
-          <div ref={cvRef} style={{ width: '210mm' }}>
-            {renderPreview()}
-          </div>
-        </div>
-      </>
-    )
-  }
+  // --- RENDERING LOGIC ---
 
   return (
-    <div className="app-container">
-      <header className="header">
-        <div className="header-left">
-          <button 
-            onClick={() => setDeviceType(null)}
-            style={{
-              background: 'transparent',
-              border: 'none',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              marginRight: '15px',
-              padding: '5px',
-              color: 'var(--text-main)'
-            }}
-            title="Về Trang Chủ"
-          >
-            <FileText className="text-primary-color" />
-          </button>
-          <h1> CV Maker</h1>
+    <div className="app-main-wrapper">
+      <MobileMenu 
+        isOpen={isMenuOpen} 
+        onClose={() => setIsMenuOpen(false)} 
+        user={user} 
+        onLogin={handleLogin}
+        onLogout={logout}
+        onShowHistory={() => {
+          setShowHistory(true);
+          setShowLanding(false);
+          setDeviceType(null);
+        }}
+        onGoHome={handleGoHome}
+      />
+
+      {showLanding ? (
+        <LandingPage 
+          onStart={() => setShowLanding(false)} 
+          onLogin={handleLogin} 
+          user={user} 
+          onShowHistory={() => {
+            if (!user) {
+              handleLogin()
+            } else {
+              setShowHistory(true)
+              setShowLanding(false)
+            }
+          }}
+          onOpenMenu={() => setIsMenuOpen(true)}
+        />
+      ) : showHistory && user ? (
+        <CVHistory 
+          userId={user.uid} 
+          onBack={handleGoHome} 
+          onNew={() => {
+            setShowHistory(false)
+            setCvData(cvDataByLanguage[language] || cvDataByLanguage['vi'])
+            setDeviceType(null)
+          }}
+          onEdit={(cv) => {
+            setCvData(cv)
+            setShowHistory(false)
+            setDeviceType(window.innerWidth < 768 ? 'phone' : 'laptop')
+          }}
+        />
+      ) : !deviceType ? (
+        <DeviceSelection onSelect={(type) => setDeviceType(type)} />
+      ) : deviceType === 'phone' ? (
+        <>
+          <MobileWizard 
+            cvData={cvData} 
+            setCvData={setCvData} 
+            template={template} 
+            setTemplate={setTemplate}
+            language={language}
+            setLanguage={setLanguage}
+            renderPreview={renderPreview}
+            onDownload={handleDownload}
+            onFinish={handleGoHome}
+          />
+          <div style={{ position: 'absolute', left: '-9999px', top: 0 }}>
+            <div ref={cvRef} style={{ width: '210mm' }}>
+              {renderPreview()}
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className="app-container">
+          <header className="header">
+            <div className="header-left">
+              <button 
+                onClick={handleGoHome}
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginRight: '15px',
+                  padding: '5px',
+                  color: 'var(--text-main)'
+                }}
+                title="Về Trang Chủ"
+              >
+                <FileText className="text-primary-color" />
+              </button>
+              <h1> CV Maker</h1>
+              
+              <div className="template-selector" style={{ display: 'flex', gap: '10px', marginLeft: '20px', flexWrap: 'wrap' }}>
+                <select 
+                  value={template} 
+                  onChange={(e) => setTemplate(e.target.value)}
+                  className="form-control"
+                  style={{ width: 'auto', padding: '0.4rem 0.8rem' }}
+                >
+                  <option value="template1">🎯 Tiêu Chuẩn</option>
+                  <option value="template2">🌸 Thanh Lịch</option>
+                  <option value="template3">⬛ Đen Trắng</option>
+                  <option value="template4">🏛️ Hình Vòm</option>
+                  <option value="template5">🌊 Gradient Hiện Đại</option>
+                  <option value="template6">💎 Tối Giản Sang Trọng</option>
+                </select>
+                <select 
+                  value={language} 
+                  onChange={(e) => setLanguage(e.target.value)}
+                  className="form-control"
+                  style={{ width: 'auto', padding: '0.4rem 0.8rem' }}
+                >
+                  <option value="vi">🇻🇳 Tiếng Việt</option>
+                  <option value="en">🇺🇸 English</option>
+                  <option value="ja">🇯🇵 日本語</option>
+                  <option value="zh">🇨🇳 中文</option>
+                  <option value="km">🇰🇭 ភាសាខ្មែរ</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="header-actions" style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+              {user ? (
+                <>
+                  <span className="user-email" style={{ fontSize: '0.85rem', color: '#cbd5e1' }}>
+                    {user.email}
+                  </span>
+                  <button className="btn-upload" onClick={handleSaveToCloud} disabled={isSaving}>
+                    {isSaving ? 'Đang lưu...' : <><Save size={16} style={{display:'inline', marginRight: '5px'}}/> Lưu</>}
+                  </button>
+                  <button className="btn-upload" onClick={logout}>
+                    <LogOut size={16} style={{display:'inline', marginRight: '5px'}}/> Đăng xuất
+                  </button>
+                </>
+              ) : (
+                <button className="btn-upload" onClick={handleLogin}>
+                  <LogIn size={16} style={{display:'inline', marginRight: '5px'}}/> Đăng nhập
+                </button>
+              )}
+
+              <button className="btn-download" onClick={handleDownload}>
+                <Download size={18} />
+                Xuất PDF
+              </button>
+            </div>
+          </header>
           
-          <div className="template-selector" style={{ display: 'flex', gap: '10px', marginLeft: '20px', flexWrap: 'wrap' }}>
-            <select 
-              value={template} 
-              onChange={(e) => setTemplate(e.target.value)}
-              className="form-control"
-              style={{ width: 'auto', padding: '0.4rem 0.8rem' }}
-            >
-              <option value="template1">🎯 Tiêu Chuẩn</option>
-              <option value="template2">🌸 Thanh Lịch</option>
-              <option value="template3">⬛ Đen Trắng</option>
-              <option value="template4">🏛️ Hình Vòm</option>
-              <option value="template5">🌊 Gradient Hiện Đại</option>
-              <option value="template6">💎 Tối Giản Sang Trọng</option>
-            </select>
-            <select 
-              value={language} 
-              onChange={(e) => setLanguage(e.target.value)}
-              className="form-control"
-              style={{ width: 'auto', padding: '0.4rem 0.8rem' }}
-            >
-              <option value="vi">🇻🇳 Tiếng Việt</option>
-              <option value="en">🇺🇸 English</option>
-              <option value="ja">🇯🇵 日本語</option>
-              <option value="zh">🇨🇳 中文</option>
-              <option value="km">🇰🇭 ភាសាខ្មែរ</option>
-            </select>
-          </div>
-        </div>
+          <main className="main-content">
+            <div className={`editor-container ${mobileTab === 'edit' ? 'active' : 'inactive'}`}>
+              <CVEditor cvData={cvData} setCvData={setCvData} />
+            </div>
+            <div className={`preview-container ${mobileTab === 'preview' ? 'active' : 'inactive'}`}>
+              <div className="preview-pane">
+                {renderPreview()}
+              </div>
+            </div>
+          </main>
 
-        <div className="header-actions" style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-          {user ? (
-            <>
-              <span className="user-email" style={{ fontSize: '0.85rem', color: '#cbd5e1' }}>
-                {user.email}
-              </span>
-              <button className="btn-upload" onClick={handleSaveToCloud} disabled={isSaving}>
-                {isSaving ? 'Đang lưu...' : <><Save size={16} style={{display:'inline', marginRight: '5px'}}/> Lưu</>}
-              </button>
-              <button className="btn-upload" onClick={logout}>
-                <LogOut size={16} style={{display:'inline', marginRight: '5px'}}/> Đăng xuất
-              </button>
-            </>
-          ) : (
-            <button className="btn-upload" onClick={handleLogin}>
-              <LogIn size={16} style={{display:'inline', marginRight: '5px'}}/> Đăng nhập
+          <div className="mobile-bottom-tabs">
+            <button 
+              className={`tab-btn ${mobileTab === 'edit' ? 'active' : ''}`}
+              onClick={() => setMobileTab('edit')}
+            >
+              <FileText size={20} />
+              <span>Chỉnh sửa</span>
             </button>
-          )}
-
-          <button className="btn-download" onClick={handleDownload}>
-            <Download size={18} />
-            Xuất PDF
-          </button>
-        </div>
-      </header>
-      
-      <main className="main-content">
-        <div className={`editor-container ${mobileTab === 'edit' ? 'active' : 'inactive'}`}>
-          <CVEditor cvData={cvData} setCvData={setCvData} />
-        </div>
-        <div className={`preview-container ${mobileTab === 'preview' ? 'active' : 'inactive'}`}>
-          <div className="preview-pane">
-            {renderPreview()}
+            <button 
+              className={`tab-btn ${mobileTab === 'preview' ? 'active' : ''}`}
+              onClick={() => setMobileTab('preview')}
+            >
+              <Eye size={20} />
+              <span>Xem trước</span>
+            </button>
           </div>
         </div>
-      </main>
-
-      {/* Mobile Tab Navigation */}
-      <div className="mobile-bottom-tabs">
-        <button 
-          className={`tab-btn ${mobileTab === 'edit' ? 'active' : ''}`}
-          onClick={() => setMobileTab('edit')}
-        >
-          <FileText size={20} />
-          <span>Chỉnh sửa</span>
-        </button>
-        <button 
-          className={`tab-btn ${mobileTab === 'preview' ? 'active' : ''}`}
-          onClick={() => setMobileTab('preview')}
-        >
-          <Eye size={20} />
-          <span>Xem trước</span>
-        </button>
-      </div>
+      )}
     </div>
   )
 }
