@@ -12,7 +12,8 @@ import CVPreview6 from './components/CVPreview6'
 import { auth, loginWithGoogle, logout, saveCVData, getCVData } from './firebase'
 import { onAuthStateChanged } from 'firebase/auth'
 import { cvDataByLanguage } from './translations'
-
+import DeviceSelection from './components/DeviceSelection'
+import MobileWizard from './components/MobileWizard'
 import LandingPage from './components/LandingPage'
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
   const [user, setUser] = useState(null)
   const [isSaving, setIsSaving] = useState(false)
   const [showLanding, setShowLanding] = useState(true)
+  const [deviceType, setDeviceType] = useState(null) // null, 'laptop', 'phone'
   const [mobileTab, setMobileTab] = useState('edit')
   const [language, setLanguage] = useState('vi')
 
@@ -109,6 +111,10 @@ function App() {
     )
   }
 
+  if (!deviceType) {
+    return <DeviceSelection onSelect={(type) => setDeviceType(type)} />
+  }
+
   const renderPreview = () => {
     const props = { cvData, language, ref: cvRef }
     switch (template) {
@@ -122,12 +128,38 @@ function App() {
     }
   }
 
+  if (deviceType === 'phone') {
+    return (
+      <>
+        <MobileWizard 
+          cvData={cvData} 
+          setCvData={setCvData} 
+          template={template} 
+          setTemplate={setTemplate}
+          language={language}
+          setLanguage={setLanguage}
+          onDownload={handleDownload}
+          onFinish={() => {
+            setShowLanding(true)
+            setDeviceType(null)
+          }}
+        />
+        {/* Hidden preview for PDF generation */}
+        <div style={{ position: 'absolute', left: '-9999px', top: 0 }}>
+          <div ref={cvRef} style={{ width: '210mm' }}>
+            {renderPreview()}
+          </div>
+        </div>
+      </>
+    )
+  }
+
   return (
     <div className="app-container">
       <header className="header">
         <div className="header-left">
           <button 
-            onClick={() => setShowLanding(true)}
+            onClick={() => setDeviceType(null)}
             style={{
               background: 'transparent',
               border: 'none',
