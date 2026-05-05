@@ -3,10 +3,10 @@ import { Phone, Mail, MapPin, Calendar, Briefcase, GraduationCap, Award, FileBad
 import { translations } from '../translations'
 import './CVPreview5.css'
 
-const CVPreview5 = forwardRef(({ cvData, language = 'vi' }, ref) => {
+const CVPreview5 = forwardRef(({ cvData, language = 'vi', extraClasses = '' }, ref) => {
   const t = translations[language] || translations['vi'];
   return (
-    <div className="cv-document-5" ref={ref}>
+    <div className={`cv-document-5 ${extraClasses}`} ref={ref}>
       {/* Header - Full Width Gradient */}
       <div className="cv5-header">
         <div className="cv5-header-overlay"></div>

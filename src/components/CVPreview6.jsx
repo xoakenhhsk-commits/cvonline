@@ -3,10 +3,10 @@ import { Phone, Mail, MapPin, Calendar, Award, FileBadge, Heart } from 'lucide-r
 import { translations } from '../translations'
 import './CVPreview6.css'
 
-const CVPreview6 = forwardRef(({ cvData, language = 'vi' }, ref) => {
+const CVPreview6 = forwardRef(({ cvData, language = 'vi', extraClasses = '' }, ref) => {
   const t = translations[language] || translations['vi'];
   return (
-    <div className="cv-document-6" ref={ref}>
+    <div className={`cv-document-6 ${extraClasses}`} ref={ref}>
       {/* Left Sidebar */}
       <div className="cv6-sidebar">
         <div className="cv6-avatar-area">

@@ -621,7 +621,12 @@ textarea.form-control {
     flex-wrap: wrap;
   }
 
-  .cv-document, .cv-document-2, .cv-document-3, .cv-document-4, .cv-document-5, .cv-document-6 {
+  .cv-document:not(.pdf-no-scale), 
+  .cv-document-2:not(.pdf-no-scale), 
+  .cv-document-3:not(.pdf-no-scale), 
+  .cv-document-4:not(.pdf-no-scale), 
+  .cv-document-5:not(.pdf-no-scale), 
+  .cv-document-6:not(.pdf-no-scale) {
     transform: scale(0.8);
     transform-origin: top center;
     margin-bottom: -20%;
@@ -629,7 +634,12 @@ textarea.form-control {
 }
 
 @media (max-width: 650px) {
-  .cv-document, .cv-document-2, .cv-document-3, .cv-document-4, .cv-document-5, .cv-document-6 {
+  .cv-document:not(.pdf-no-scale), 
+  .cv-document-2:not(.pdf-no-scale), 
+  .cv-document-3:not(.pdf-no-scale), 
+  .cv-document-4:not(.pdf-no-scale), 
+  .cv-document-5:not(.pdf-no-scale), 
+  .cv-document-6:not(.pdf-no-scale) {
     transform: scale(0.6);
     transform-origin: top center;
     margin-bottom: -40%;
@@ -637,7 +647,12 @@ textarea.form-control {
 }
 
 @media (max-width: 450px) {
-  .cv-document, .cv-document-2, .cv-document-3, .cv-document-4, .cv-document-5, .cv-document-6 {
+  .cv-document:not(.pdf-no-scale), 
+  .cv-document-2:not(.pdf-no-scale), 
+  .cv-document-3:not(.pdf-no-scale), 
+  .cv-document-4:not(.pdf-no-scale), 
+  .cv-document-5:not(.pdf-no-scale), 
+  .cv-document-6:not(.pdf-no-scale) {
     transform: scale(0.45);
     transform-origin: top center;
     margin-bottom: -55%;
@@ -672,7 +687,12 @@ textarea.form-control {
 }
 
 @media (max-width: 380px) {
-  .cv-document, .cv-document-2, .cv-document-3, .cv-document-4, .cv-document-5, .cv-document-6 {
+  .cv-document:not(.pdf-no-scale), 
+  .cv-document-2:not(.pdf-no-scale), 
+  .cv-document-3:not(.pdf-no-scale), 
+  .cv-document-4:not(.pdf-no-scale), 
+  .cv-document-5:not(.pdf-no-scale), 
+  .cv-document-6:not(.pdf-no-scale) {
     transform: scale(0.38);
     transform-origin: top center;
     margin-bottom: -62%;

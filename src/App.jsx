@@ -125,7 +125,9 @@ function App() {
       const canvas = await html2canvas(cvRef.current, {
         scale: 2,
         useCORS: true,
-        backgroundColor: template === 'template2' ? '#f7ede2' : '#ffffff'
+        backgroundColor: template === 'template2' ? '#f7ede2' : '#ffffff',
+        windowWidth: 1200, // Force desktop width for capture
+        logging: false
       })
       
       const imgData = canvas.toDataURL('image/jpeg', 1.0)
@@ -147,8 +149,8 @@ function App() {
     }
   }
 
-  const renderPreview = () => {
-    const props = { cvData, language, ref: cvRef }
+  const renderPreview = (extraClasses = '') => {
+    const props = { cvData, language, ref: cvRef, extraClasses }
     switch (template) {
       case 'template1': return <CVPreview {...props} />
       case 'template2': return <CVPreview2 {...props} />
@@ -223,9 +225,9 @@ function App() {
             onDownload={handleDownload}
             onFinish={handleGoHome}
           />
-          <div style={{ position: 'absolute', left: '-9999px', top: 0 }}>
-            <div ref={cvRef} style={{ width: '210mm' }}>
-              {renderPreview()}
+          <div style={{ position: 'absolute', left: '-5000px', top: 0, width: '1200px' }}>
+            <div ref={cvRef} style={{ width: '210mm', background: 'white' }}>
+              {renderPreview('pdf-no-scale')}
             </div>
           </div>
         </>

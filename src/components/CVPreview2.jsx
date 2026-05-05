@@ -3,10 +3,10 @@ import { Phone, Mail, MapPin, Globe } from 'lucide-react'
 import { translations } from '../translations'
 import './CVPreview2.css'
 
-const CVPreview2 = forwardRef(({ cvData, language = 'vi' }, ref) => {
+const CVPreview2 = forwardRef(({ cvData, language = 'vi', extraClasses = '' }, ref) => {
   const t = translations[language] || translations['vi'];
   return (
-    <div className="cv-document-2" ref={ref}>
+    <div className={`cv-document-2 ${extraClasses}`} ref={ref}>
       <div className="cv2-top-bg"></div>
       <div className="cv2-content">
         <div className="cv2-header">

@@ -12,10 +12,10 @@ const SectionIcon = ({ icon: Icon, title }) => (
   </div>
 )
 
-const CVPreview3 = forwardRef(({ cvData, language = 'vi' }, ref) => {
+const CVPreview3 = forwardRef(({ cvData, language = 'vi', extraClasses = '' }, ref) => {
   const t = translations[language] || translations['vi'];
   return (
-    <div className="cv-document-3" ref={ref}>
+    <div className={`cv-document-3 ${extraClasses}`} ref={ref}>
       {/* Left Column */}
       <div className="cv3-left">
         <div className="cv3-header-left">
