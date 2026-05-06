@@ -226,7 +226,7 @@ function App() {
             onFinish={handleGoHome}
           />
           <div style={{ position: 'absolute', left: '-5000px', top: 0, width: '1200px' }}>
-            <div ref={cvRef} style={{ width: '210mm', background: 'white' }}>
+            <div style={{ width: '794px', background: 'white' }}>
               {renderPreview('pdf-no-scale')}
             </div>
           </div>

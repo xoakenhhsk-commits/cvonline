@@ -338,9 +338,9 @@ textarea.form-control {
 
 .cv-name {
   color: #ffffff;
-  font-size: 1.4rem;
+  font-size: 24px;
   text-transform: uppercase;
-  margin-bottom: 0.5rem;
+  margin-bottom: 8px;
   letter-spacing: 0.5px;
   font-weight: 700;
   line-height: 1.3;
@@ -348,7 +348,7 @@ textarea.form-control {
 
 .cv-title {
   color: #ffffff;
-  font-size: 0.95rem;
+  font-size: 15px;
   font-weight: 400;
   opacity: 0.9;
 }
@@ -356,20 +356,20 @@ textarea.form-control {
 .cv-left-bottom {
   background-color: var(--cv-left-bottom);
   flex-grow: 1;
-  padding: 2rem 1.5rem;
+  padding: 32px 24px;
   color: #ffffff;
 }
 
 .contact-list {
-  margin-bottom: 2rem;
+  margin-bottom: 32px;
 }
 
 .contact-item {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
-  margin-bottom: 0.8rem;
-  font-size: 0.85rem;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-size: 14px;
   word-break: break-word;
 }
 
@@ -385,28 +385,28 @@ textarea.form-control {
 }
 
 .sidebar-title {
-  font-size: 1.1rem;
+  font-size: 18px;
   text-transform: uppercase;
   border-bottom: 2px solid rgba(255,255,255,0.3);
-  padding-bottom: 0.5rem;
-  margin-bottom: 1.2rem;
+  padding-bottom: 8px;
+  margin-bottom: 20px;
   font-weight: 600;
   letter-spacing: 0.5px;
 }
 
 .sidebar-section {
-  margin-bottom: 2rem;
+  margin-bottom: 32px;
 }
 
 .skills-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 16px;
 }
 
 .skill-name {
-  font-size: 0.85rem;
-  margin-bottom: 0.4rem;
+  font-size: 14px;
+  margin-bottom: 6px;
 }
 
 .skill-bar-bg {
@@ -429,10 +429,10 @@ textarea.form-control {
 }
 
 .hobbies-list li {
-  font-size: 0.85rem;
+  font-size: 14px;
   line-height: 2;
   position: relative;
-  padding-left: 1rem;
+  padding-left: 16px;
 }
 
 .hobbies-list li::before {
@@ -445,21 +445,21 @@ textarea.form-control {
 /* Right Column */
 .cv-right-col {
   width: 65%;
-  padding: 2.5rem 2rem;
+  padding: 40px 32px;
 }
 
 .main-section {
-  margin-bottom: 2rem;
+  margin-bottom: 32px;
 }
 
 .main-title {
-  font-size: 1.1rem;
+  font-size: 18px;
   text-transform: uppercase;
   color: var(--cv-text-dark);
-  margin-bottom: 1rem;
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 12px;
   font-weight: 700;
 }
 
@@ -476,55 +476,55 @@ textarea.form-control {
 }
 
 .summary-text {
-  font-size: 0.9rem;
+  font-size: 14px;
   line-height: 1.6;
   color: var(--cv-text-dark);
   text-align: justify;
 }
 
 .timeline-item {
-  margin-bottom: 1.2rem;
+  margin-bottom: 20px;
 }
 
 .timeline-header {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 0.3rem;
+  margin-bottom: 6px;
 }
 
 .item-title {
-  font-size: 0.95rem;
+  font-size: 15px;
   font-weight: 700;
   color: var(--cv-text-dark);
   text-transform: uppercase;
 }
 
 .item-date {
-  font-size: 0.85rem;
+  font-size: 14px;
   font-weight: 600;
   color: var(--cv-text-dark);
   white-space: nowrap;
 }
 
 .item-subtitle {
-  font-size: 0.9rem;
+  font-size: 14px;
   font-weight: 600;
   color: var(--cv-text-light);
-  margin-bottom: 0.3rem;
+  margin-bottom: 6px;
 }
 
 .item-desc {
-  font-size: 0.9rem;
+  font-size: 14px;
   line-height: 1.6;
   color: var(--cv-text-dark);
 }
 
 .list-item {
   display: flex;
-  gap: 1.5rem;
-  margin-bottom: 0.6rem;
-  font-size: 0.9rem;
+  gap: 24px;
+  margin-bottom: 10px;
+  font-size: 14px;
   align-items: flex-start;
 }
 
