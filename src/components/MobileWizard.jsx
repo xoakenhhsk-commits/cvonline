@@ -165,7 +165,11 @@ const MobileWizard = ({ cvData, setCvData, template, setTemplate, language, setL
   }
 
   const prevStep = () => {
-    if (step > 0) setStep(step - 1)
+    if (step > 0) {
+      setStep(step - 1)
+    } else if (onFinish) {
+      onFinish()
+    }
   }
 
   const renderStepContent = () => {
@@ -463,7 +467,7 @@ const MobileWizard = ({ cvData, setCvData, template, setTemplate, language, setL
     <div className="mobile-wizard-container">
       {/* Top Navigation */}
       <div className="wizard-header">
-        <button className="back-circle-btn" onClick={prevStep} disabled={step === 0}>
+        <button className="back-circle-btn" onClick={prevStep}>
           <ChevronLeft size={20} />
         </button>
         
@@ -490,8 +494,8 @@ const MobileWizard = ({ cvData, setCvData, template, setTemplate, language, setL
 
       {/* Bottom Navigation */}
       <div className="wizard-footer">
-        <button className="footer-back-btn" onClick={prevStep} disabled={step === 0}>
-          <ChevronLeft size={18} /> {t.back}
+        <button className="footer-back-btn" onClick={prevStep}>
+          <ChevronLeft size={18} /> {step === 0 ? (language === 'vi' ? 'Trang chủ' : 'Home') : t.back}
         </button>
 
         <div className="step-dots">

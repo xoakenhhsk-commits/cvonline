@@ -1,11 +1,19 @@
 import React from 'react'
-import { Monitor, Smartphone, ChevronRight } from 'lucide-react'
+import { Monitor, Smartphone, ChevronRight, ArrowLeft } from 'lucide-react'
 import './DeviceSelection.css'
 
-const DeviceSelection = ({ onSelect }) => {
+const DeviceSelection = ({ onSelect, onBack }) => {
   return (
     <div className="device-selection-overlay">
       <div className="device-selection-card">
+        {onBack && (
+          <button 
+            onClick={onBack}
+            className="device-back-btn"
+          >
+            <ArrowLeft size={20} /> Về Trang Chủ
+          </button>
+        )}
         <h2>Chào mừng bạn!</h2>
         <p>Bạn đang sử dụng thiết bị nào để tạo CV?</p>
         

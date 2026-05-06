@@ -21,6 +21,30 @@
   width: 100%;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   text-align: center;
+  position: relative;
+}
+
+.device-back-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: transparent;
+  border: none;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.device-back-btn:hover {
+  background: #f1f5f9;
+  color: #1e293b;
 }
 
 .device-selection-card h2 {

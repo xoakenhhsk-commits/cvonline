@@ -211,7 +211,7 @@ function App() {
           }}
         />
       ) : !deviceType ? (
-        <DeviceSelection onSelect={(type) => setDeviceType(type)} />
+        <DeviceSelection onSelect={(type) => setDeviceType(type)} onBack={handleGoHome} />
       ) : deviceType === 'phone' ? (
         <>
           <MobileWizard 
