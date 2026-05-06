@@ -126,7 +126,16 @@ function App() {
         scale: 2,
         useCORS: true,
         backgroundColor: template === 'template2' ? '#f7ede2' : '#ffffff',
-        windowWidth: 1200, // Force desktop width for capture
+        windowWidth: 794, 
+        width: 794,
+        onclone: (clonedDoc) => {
+          const el = clonedDoc.querySelector('.pdf-no-scale');
+          if (el) {
+            el.style.transform = 'none';
+            el.style.width = '794px';
+            el.style.margin = '0';
+          }
+        },
         logging: false
       })
       
@@ -225,7 +234,7 @@ function App() {
             onDownload={handleDownload}
             onFinish={handleGoHome}
           />
-          <div style={{ position: 'absolute', left: '-5000px', top: 0, width: '1200px' }}>
+          <div style={{ position: 'fixed', left: 0, top: '200vh', width: '794px', zIndex: -1000, opacity: 0, pointerEvents: 'none' }}>
             <div style={{ width: '794px', background: 'white' }}>
               {renderPreview('pdf-no-scale')}
             </div>
