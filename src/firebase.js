@@ -40,17 +40,20 @@ export const logout = async () => {
 
 export const saveCVData = async (userId, cvData) => {
   try {
-    // Legacy support: save to main doc
-    await setDoc(doc(db, "users", userId), { cvData }, { merge: true });
-    
-    // New support: save as a specific CV record
     const cvsRef = collection(db, "users", userId, "cvs");
-    if (cvData.id) {
-      await setDoc(doc(db, "users", userId, "cvs", cvData.id), { ...cvData, updatedAt: new Date() });
+    let savedId = cvData.id;
+    
+    if (savedId) {
+      await setDoc(doc(db, "users", userId, "cvs", savedId), { ...cvData, updatedAt: new Date() });
     } else {
       const newDoc = await addDoc(cvsRef, { ...cvData, createdAt: new Date(), updatedAt: new Date() });
-      cvData.id = newDoc.id;
+      savedId = newDoc.id;
+      cvData.id = savedId;
     }
+
+    // Save to main doc for legacy support, ensuring the ID is included
+    await setDoc(doc(db, "users", userId), { cvData: { ...cvData, id: savedId } }, { merge: true });
+    
     return cvData;
   } catch (error) {
     console.error("Error saving CV", error);

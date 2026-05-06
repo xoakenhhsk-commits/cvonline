@@ -112,10 +112,26 @@ function App() {
     }
   }
 
-  const handleGoHome = () => {
+  const handleGoHome = async () => {
+    if (user && !showLanding && !showHistory) {
+      await handleSaveCV();
+    }
     setShowLanding(true);
     setDeviceType(null);
     setShowHistory(false);
+  }
+
+  const handleGoToHistory = async () => {
+    if (!user) {
+      handleLogin();
+      return;
+    }
+    if (!showLanding && !showHistory) {
+      await handleSaveCV();
+    }
+    setShowHistory(true);
+    setShowLanding(false);
+    setDeviceType(null);
   }
 
   const handleDownload = async () => {
@@ -181,11 +197,7 @@ function App() {
         user={user} 
         onLogin={handleLogin}
         onLogout={logout}
-        onShowHistory={() => {
-          setShowHistory(true);
-          setShowLanding(false);
-          setDeviceType(null);
-        }}
+        onShowHistory={handleGoToHistory}
         onGoHome={handleGoHome}
       />
 
@@ -194,14 +206,7 @@ function App() {
           onStart={() => setShowLanding(false)} 
           onLogin={handleLogin} 
           user={user} 
-          onShowHistory={() => {
-            if (!user) {
-              handleLogin()
-            } else {
-              setShowHistory(true)
-              setShowLanding(false)
-            }
-          }}
+          onShowHistory={handleGoToHistory}
           onOpenMenu={() => setIsMenuOpen(true)}
         />
       ) : showHistory && user ? (
